@@ -1,0 +1,1 @@
+ALTER TABLE "Vouch" ADD COLUMN "proofUrl" TEXT;

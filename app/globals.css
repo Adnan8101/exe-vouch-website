@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c9a76f;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d4b786;
+}
+
+/* Optimized smooth rendering */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+/* Optimize rendering performance */
+img, video, iframe {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+body {
+  overscroll-behavior: none;
+  overflow-x: hidden;
+}
+
+/* Performance optimizations */
+* {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Reduce layout shifts */
+.skeleton, [class*="skeleton"] {
+  contain: layout style paint;
+}
+
+/* Optimize scroll performance */
+.overflow-auto, .overflow-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Enhanced scrollbar for smoother feel */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c9a76f #1a1a1a;
+}
+
+/* Line clamp utilities */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Image optimization */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Optimized hover transitions - CPU only */
+button,
+a,
+[class*="hover:"] {
+  transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Discord button gradient animation */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+/* Optimized canvas rendering */
+canvas {
+  image-rendering: optimizeQuality;
+  contain: strict;
+  pointer-events: none;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* GPU acceleration for animated elements */
+[class*="animate-"],
+[class*="transition-"],
+.group:hover > * {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* CSS containment for better performance */
+.relative {
+  contain: layout style;
+}
+
+/* Optimize heavy cards */
+[class*="bg-gradient"] {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize image loading */
+img[loading="lazy"] {
+  content-visibility: auto;
+}
+
+/* Reduce paint areas */
+.border,
+[class*="border-"] {
+  contain: paint;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Simple fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile touch optimization */
+a {
+  -webkit-tap-highlight-color: rgba(201, 167, 111, 0.1);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  button, a {
+    -webkit-tap-highlight-color: rgba(201, 167, 111, 0.2);
+  }
+}

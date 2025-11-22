@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Vouch {
+  id           String   @id @default(cuid())
+  vouchNumber  Int      @unique
+  channelId    String
+  channelName  String
+  authorId     String
+  authorName   String
+  authorAvatar String?
+  message      String   @db.Text
+  messageId    String   @unique
+  timestamp    DateTime
+  attachments  String[]
+  proofUrl     String?  // URL to proof image if linked
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([authorId])
+  @@index([timestamp])
+  @@index([vouchNumber])
+}
+
+model CaptureSession {
+  id           String    @id @default(cuid())
+  channelId    String
+  channelName  String
+  totalVouches Int
+  startedBy    String
+  startedAt    DateTime  @default(now())
+  completedAt  DateTime?
+  isPushed     Boolean   @default(false)
+  pushedAt     DateTime?
+  summary      String?   @db.Text
+
+  @@index([channelId])
+  @@index([startedAt])
+}
+
+model Proof {
+  id           String   @id @default(cuid())
+  channelId    String
+  channelName  String
+  authorId     String
+  authorName   String
+  authorAvatar String?
+  message      String   @db.Text
+  messageId    String   @unique
+  timestamp    DateTime
+  imageUrls    String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([authorId])
+  @@index([timestamp])
+}
+
+model ProofSession {
+  id          String    @id @default(cuid())
+  channelId   String
+  channelName String
+  totalProofs Int
+  totalImages Int
+  startedBy   String
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  isPushed    Boolean   @default(false)
+  pushedAt    DateTime?
+  summary     String?   @db.Text
+
+  @@index([channelId])
+  @@index([startedAt])
+}
+
+model AutoVouchChannel {
+  id          String   @id @default(cuid())
+  guildId     String
+  channelId   String   @unique
+  channelName String
+  isEnabled   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([guildId])
+  @@index([channelId])
+}
+
+model AutoProofChannel {
+  id          String   @id @default(cuid())
+  guildId     String
+  channelId   String   @unique
+  channelName String
+  isEnabled   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([guildId])
+  @@index([channelId])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  username  String
+  avatarUrl String?
+  role      String   // 'Founder', 'Owner', 'Manager', 'EarlySupport'
+  order     Int      @default(0) // For sorting within role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role])
+  @@index([order])
+}
