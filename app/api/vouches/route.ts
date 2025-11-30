@@ -22,7 +22,7 @@ export async function GET(request: Request) {
         }
       : {};
 
-    const [vouches, total, maxVouchNumber] = await Promise.all([
+    const [vouches, total] = await Promise.all([
       prisma.vouch.findMany({
         where: whereClause,
         skip,
@@ -45,24 +45,16 @@ export async function GET(request: Request) {
         },
       }),
       prisma.vouch.count({ where: whereClause }),
-      // Get max vouch number for total display
-      prisma.vouch.findFirst({
-        orderBy: { vouchNumber: 'desc' },
-        select: { vouchNumber: true },
-      }),
     ]);
 
     const totalPages = Math.ceil(total / limit);
-    // Use max vouch number for display total (includes deleted vouches)
-    const displayTotal = search ? total : (maxVouchNumber?.vouchNumber || total);
 
     const response = NextResponse.json({
       vouches,
       pagination: {
         page,
         limit,
-        total: displayTotal,
-        actualCount: total,
+        total: total,
         totalPages,
         hasMore: page < totalPages,
       },
