@@ -40,8 +40,10 @@ export default function VouchesClient() {
     `/api/vouches?page=${page}&limit=30${debouncedSearch ? `&search=${encodeURIComponent(debouncedSearch)}` : ''}`,
     fetcher,
     {
-      refreshInterval: debouncedSearch ? 0 : 5000, // Don't auto-refresh during search
+      refreshInterval: debouncedSearch ? 0 : 3000, // Refresh every 3 seconds when not searching
       revalidateOnFocus: true,
+      dedupingInterval: 1000, // Prevent duplicate requests within 1 second
+      revalidateOnMount: true,
     }
   );
 

@@ -56,7 +56,7 @@ export async function GET(request: Request) {
     // Use max vouch number for display total (includes deleted vouches)
     const displayTotal = search ? total : (maxVouchNumber?.vouchNumber || total);
 
-    return NextResponse.json({
+    const response = NextResponse.json({nse.json({
       vouches,
       pagination: {
         page,
@@ -67,6 +67,15 @@ export async function GET(request: Request) {
         hasMore: page < totalPages,
       },
     });
+    
+    // Disable caching completely
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    
+    return response;
+    
+    return response;
   } catch (error) {
     console.error('Error fetching vouches:', error);
     return NextResponse.json(

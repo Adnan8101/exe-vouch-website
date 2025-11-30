@@ -45,7 +45,7 @@ export async function GET(request: Request) {
 
     const totalPages = Math.ceil(total / limit);
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       proofs: proofsWithCorrectAvatars,
       pagination: {
         page,
@@ -55,6 +55,13 @@ export async function GET(request: Request) {
         hasMore: page < totalPages,
       },
     });
+    
+    // Disable caching completely
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    
+    return response;
   } catch (error) {
     console.error('Error fetching proofs:', error);
     return NextResponse.json(

@@ -12,8 +12,10 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function VouchesPage() {
   const { data: summary, isLoading } = useSWR('/api/summary', fetcher, {
-    refreshInterval: 15000,
-    revalidateOnFocus: false,
+    refreshInterval: 5000, // Refresh every 5 seconds for real-time stats
+    revalidateOnFocus: true,
+    revalidateOnMount: true,
+    dedupingInterval: 1000,
   });
 
   return (
